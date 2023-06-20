@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 
 public class AuthorsYamlTests {
 
-    @Mock
     private AuthorsYaml authorsYaml;
 
     @BeforeEach
