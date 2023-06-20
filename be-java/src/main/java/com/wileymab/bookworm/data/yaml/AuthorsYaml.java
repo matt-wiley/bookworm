@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class AuthorsYaml implements AuthorsInterface<Author> {
     private String dataPath;
 
     private List<Author> authorsList = new ArrayList<>();
-
+    private Map<String, Author> idIndex = new HashMap<>();
 
     public AuthorsYaml(YamlDataConfig yamlDataConfig) throws FileNotFoundException {
         this.dataPath = String.format("%s/%s.yml", yamlDataConfig.getPath(), Tokens.DATA_SET_NAME);
@@ -41,8 +42,8 @@ public class AuthorsYaml implements AuthorsInterface<Author> {
     }
 
     @Override
-    public Author getAuthorById(Integer id) {
-        return null;
+    public Author getAuthorById(String id) {
+        return this.idIndex.get(id);
     }
 
     private void loadYamlData() throws FileNotFoundException {
@@ -51,6 +52,7 @@ public class AuthorsYaml implements AuthorsInterface<Author> {
         Map<String, Object> rawData = yaml.load(inputStream);
         List<Map<String, Object>> authorsRawDataList = (List<Map<String, Object>>) rawData.get(Tokens.DATA_SET_NAME);
         parseData(authorsRawDataList);
+        indexDataById();
     }
 
     private void parseData(List<Map<String, Object>> authorsRawDataList) {
@@ -67,4 +69,9 @@ public class AuthorsYaml implements AuthorsInterface<Author> {
         }
     }
 
+    private void indexDataById() {
+        for ( Author author: this.authorsList ) {
+            this.idIndex.put(author.getId(), author);
+        }
+    }
 }

@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class TitlesYaml implements TitlesInterface<Title> {
     private String dataPath;
 
     private List<Title> titlesList = new ArrayList<>();
-
+    private Map<String, Title> idIndex = new HashMap<>();
 
     public TitlesYaml(YamlDataConfig yamlDataConfig) throws FileNotFoundException {
         this.dataPath = String.format("%s/%s.yml", yamlDataConfig.getPath(), Tokens.DATA_SET_NAME);
@@ -39,8 +40,8 @@ public class TitlesYaml implements TitlesInterface<Title> {
     }
 
     @Override
-    public Title getTitleById(Integer id) {
-        return null;
+    public Title getTitleById(String id) {
+        return this.idIndex.get(id);
     }
 
 
@@ -50,6 +51,7 @@ public class TitlesYaml implements TitlesInterface<Title> {
         Map<String, Object> rawData = yaml.load(inputStream);
         List<Map<String, Object>> titlesRawData = (List<Map<String, Object>>) rawData.get(Tokens.DATA_SET_NAME);
         parseData(titlesRawData);
+        indexDataById();
     }
 
     private void parseData(List<Map<String, Object>> titlesRawDataList) {
@@ -60,6 +62,12 @@ public class TitlesYaml implements TitlesInterface<Title> {
                     (String) titleRawData.get(Tokens.YAML_AUTHOR_ID_KEY)
             );
             this.titlesList.add(t);
+        }
+    }
+
+    private void indexDataById() {
+        for (Title title : this.titlesList) {
+            this.idIndex.put(title.getId(), title);
         }
     }
 
