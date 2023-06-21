@@ -1,8 +1,6 @@
 package com.wileymab.bookworm.data.yaml;
 
-import com.wileymab.bookworm.data.interfaces.AuthorsInterface;
-import com.wileymab.bookworm.data.yaml.models.Author;
-import com.wileymab.bookworm.data.yaml.models.Title;
+import com.wileymab.bookworm.api.model.Author;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class AuthorsYaml implements AuthorsInterface<Author> {
+public class AuthorsYaml {
 
     private static class Tokens {
         private static final String DATA_SET_NAME = "authors";
@@ -41,7 +39,6 @@ public class AuthorsYaml implements AuthorsInterface<Author> {
         LOG.info(authorsList.toString());
     }
 
-    @Override
     public Author getAuthorById(String id) {
         return this.idIndex.get(id);
     }

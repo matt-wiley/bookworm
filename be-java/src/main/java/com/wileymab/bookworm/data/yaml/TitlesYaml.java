@@ -1,7 +1,6 @@
 package com.wileymab.bookworm.data.yaml;
 
-import com.wileymab.bookworm.data.interfaces.TitlesInterface;
-import com.wileymab.bookworm.data.yaml.models.Title;
+import com.wileymab.bookworm.api.model.Title;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class TitlesYaml implements TitlesInterface<Title> {
+public class TitlesYaml {
 
     private static class Tokens {
         private static final String DATA_SET_NAME = "titles";
@@ -39,7 +38,6 @@ public class TitlesYaml implements TitlesInterface<Title> {
         LOG.info(titlesList.toString());
     }
 
-    @Override
     public Title getTitleById(String id) {
         return this.idIndex.get(id);
     }

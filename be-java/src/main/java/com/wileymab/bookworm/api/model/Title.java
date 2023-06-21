@@ -1,4 +1,4 @@
-package com.wileymab.bookworm.data.yaml.models;
+package com.wileymab.bookworm.api.model;
 
 public class Title {
     private String id;
