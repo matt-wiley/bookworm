@@ -25,10 +25,12 @@ public class AuthorsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAuthorById(@PathVariable final String id) {
-        RestCallHandler<Author> restCallHandler = new RestCallHandler<>();
-        ResponseEntity<?> response = restCallHandler.execute(() -> authorService.getAuthorById(id));
-        return response;
+        return new RestCallHandler<>().execute(() -> authorService.getAuthorById(id));
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> getAllAuthors() {
+        return new RestCallHandler<>().execute(authorService::getAllAuthors);
+    }
 
 }

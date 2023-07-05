@@ -43,6 +43,10 @@ public class AuthorsYaml {
         return this.idIndex.get(id);
     }
 
+    public List<Author> getAllAuthors() {
+        return authorsList;
+    }
+
     private void loadYamlData() throws FileNotFoundException {
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream(this.dataPath);

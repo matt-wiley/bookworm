@@ -23,8 +23,7 @@ public class YamlAuthorService implements AuthorServiceInterface {
 
     @Override
     public List<Author> getAllAuthors() {
-        // TODO
-        return null;
+        return authorsYamlData.getAllAuthors();
     }
 
     @Override
