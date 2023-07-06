@@ -6,13 +6,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class AuthorsYaml {
@@ -57,33 +56,68 @@ public class AuthorsYaml {
                 .toList();
     }
 
+    public Author insertAuthor(Author author) throws IOException {
+        Author insertableAuthor = new Author(null, author.getName() );
+        List<Author> updatedAuthorsList = new ArrayList<>(authorsList);
+        insertableAuthor.setId(UUID.randomUUID().toString());
+        updatedAuthorsList.add(insertableAuthor);
+        persistData(updatedAuthorsList);
+        loadYamlData();
+        return getAuthorById(insertableAuthor.getId());
+    }
 
     private void loadYamlData() throws FileNotFoundException {
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream(this.dataPath);
-        Map<String, Object> rawData = yaml.load(inputStream);
-        List<Map<String, Object>> authorsRawDataList = (List<Map<String, Object>>) rawData.get(Tokens.DATA_SET_NAME);
-        parseData(authorsRawDataList);
+        List<Map<String, Object>> authorsRawDataList = yaml.load(inputStream);
+        this.authorsList.clear();
+        this.authorsList.addAll(deserializeData(authorsRawDataList));
         indexDataById();
     }
 
-    private void parseData(List<Map<String, Object>> authorsRawDataList) {
+    private void persistData(List<Author> updatedAuthorsList) throws IOException {
+        Yaml yaml = new Yaml();
+        FileWriter fileWriter = new FileWriter(this.dataPath, false);
+        yaml.dump(serializeData(updatedAuthorsList), fileWriter);
+    }
+
+    private List<Author> deserializeData(List<Map<String, Object>> authorsRawDataList) {
+        List<Author> loadedAuthorsList = new ArrayList<>();
         for (Map<String,Object> authorRawData: authorsRawDataList) {
             Map<String, String> nameMap = (Map<String, String>) authorRawData.get(Tokens.YAML_NAME_KEY);
-            Author t = new Author(
+            Author a = new Author(
                     (String) authorRawData.get(Tokens.YAML_ID_KEY),
                     new Author.Name(
                             nameMap.get(Tokens.YAML_NAME_FIRST_KEY),
                             nameMap.get(Tokens.YAML_NAME_LAST_KEY)
                     )
             );
-            this.authorsList.add(t);
+            loadedAuthorsList.add(a);
         }
+        return loadedAuthorsList;
+    }
+
+    private List<Map<String,Object>> serializeData(List<Author> authorsList) {
+        List<Map<String,Object>> authorsRawData = new ArrayList<>();
+        for ( Author author: authorsList ) {
+            Map<String,Object> authorMap = new HashMap<>();
+            authorMap.put("id", author.getId());
+
+            Map<String,String> nameMap = new HashMap<>();
+            nameMap.put("first", author.getName().getFirstName());
+            nameMap.put("last", author.getName().getLastName());
+            authorMap.put("name",nameMap);
+
+            authorsRawData.add(authorMap);
+        }
+        return authorsRawData;
     }
 
     private void indexDataById() {
+        this.idIndex.clear();
         for ( Author author: this.authorsList ) {
             this.idIndex.put(author.getId(), author);
         }
     }
+
 }

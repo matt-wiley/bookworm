@@ -1,9 +1,7 @@
 package com.wileymab.bookworm.services.yaml;
 
 import com.wileymab.bookworm.api.interfaces.BookServiceInterface;
-import com.wileymab.bookworm.api.interfaces.TitleServiceInterface;
 import com.wileymab.bookworm.api.model.Book;
-import com.wileymab.bookworm.api.model.Title;
 import com.wileymab.bookworm.api.services.yaml.YamlAuthorService;
 import com.wileymab.bookworm.api.services.yaml.YamlBookService;
 import com.wileymab.bookworm.api.services.yaml.YamlTitleService;

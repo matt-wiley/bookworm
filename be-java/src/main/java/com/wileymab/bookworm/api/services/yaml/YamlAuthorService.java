@@ -5,6 +5,7 @@ import com.wileymab.bookworm.api.model.Author;
 import com.wileymab.bookworm.data.yaml.AuthorsYaml;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -30,4 +31,10 @@ public class YamlAuthorService implements AuthorServiceInterface {
     public List<Author> findAllAuthorsWhereNameContains(String substring) {
         return authorsYamlData.findAllAuthorsWhereNameContainsString(substring);
     }
+
+    @Override
+    public Author insertAuthor(Author author) throws IOException {
+        return authorsYamlData.insertAuthor(author);
+    }
+
 }

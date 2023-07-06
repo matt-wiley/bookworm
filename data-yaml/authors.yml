@@ -1,5 +1,8 @@
-authors:
-  - id: ba1c46cb-acab-401d-9251-a856bcc0f2a0
-    name:
-      last: Adams
-      first: Douglas
+- name: { last: Adams, first: Douglas }
+  id: ba1c46cb-acab-401d-9251-a856bcc0f2a0
+- name: { last: King, first: Stephen }
+  id: 5efbd9f8-3699-4e64-becd-adb8b9300e88
+- name: { last: Palahniuk, first: Chuck }
+  id: 40b249ac-392e-407f-9014-632391d7bad6
+- name: { last: Jones, first: Stephen Graham }
+  id: edb7e6b7-8b7e-44d9-bbc6-be5f82cc8756

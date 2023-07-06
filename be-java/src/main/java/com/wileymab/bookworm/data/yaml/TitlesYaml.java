@@ -1,6 +1,5 @@
 package com.wileymab.bookworm.data.yaml;
 
-import com.wileymab.bookworm.api.model.Author;
 import com.wileymab.bookworm.api.model.Title;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

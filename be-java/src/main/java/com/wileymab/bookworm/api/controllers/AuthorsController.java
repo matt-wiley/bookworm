@@ -2,6 +2,7 @@ package com.wileymab.bookworm.api.controllers;
 
 import com.wileymab.bookworm.api.controllers.utils.RestCallHandler;
 import com.wileymab.bookworm.api.interfaces.AuthorServiceInterface;
+import com.wileymab.bookworm.api.model.Author;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,10 @@ public class AuthorsController {
         return new RestCallHandler<>().execute(() -> authorService.findAllAuthorsWhereNameContains(query));
     }
 
+    @PostMapping("")
+    public ResponseEntity<?> insertNewAuthor(@RequestBody Author author) {
+        return new RestCallHandler<>().execute(() -> authorService.insertAuthor(author));
+    }
 
     // ========================================================================
     //  PRIVATE API

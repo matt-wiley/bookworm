@@ -3,14 +3,13 @@ package com.wileymab.bookworm.api.services.yaml;
 import com.wileymab.bookworm.api.interfaces.AuthorServiceInterface;
 import com.wileymab.bookworm.api.interfaces.BookServiceInterface;
 import com.wileymab.bookworm.api.interfaces.TitleServiceInterface;
-import com.wileymab.bookworm.api.model.Book;
-import com.wileymab.bookworm.data.yaml.AuthorsYaml;
-import com.wileymab.bookworm.data.yaml.TitlesYaml;
 import com.wileymab.bookworm.api.model.Author;
+import com.wileymab.bookworm.api.model.Book;
 import com.wileymab.bookworm.api.model.Title;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class YamlBookService implements BookServiceInterface {
@@ -19,7 +18,13 @@ public class YamlBookService implements BookServiceInterface {
     private final TitleServiceInterface titleService;
 
 
-
+    /**
+     * This service stitches together the underlying title and author services
+     * to provide books
+     *
+     * @param authorService
+     * @param titleService
+     */
     public YamlBookService(
             AuthorServiceInterface authorService,
             TitleServiceInterface titleService

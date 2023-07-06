@@ -1,16 +1,12 @@
 package com.wileymab.bookworm.api.controllers;
 
 import com.wileymab.bookworm.api.controllers.utils.RestCallHandler;
-import com.wileymab.bookworm.api.interfaces.AuthorServiceInterface;
 import com.wileymab.bookworm.api.interfaces.TitleServiceInterface;
-import com.wileymab.bookworm.api.model.Title;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -57,6 +53,8 @@ public class TitlesController {
         return new RestCallHandler<>().execute(() -> titleService.findAllWhereTitleContains(query));
     }
 
+    // TODO: Add title
+    // TODO: Update title data (author_id)
 
     // ========================================================================
     //  PRIVATE API
