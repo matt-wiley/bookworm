@@ -27,17 +27,12 @@ public class AuthorsController {
 
     @GetMapping("")
     public ResponseEntity<?> getAllAuthors_EmptyPath() {
-        return this.getAllAuthors();
+        return getAllAuthors();
     }
 
     @GetMapping("/")
     public ResponseEntity<?> getAllAuthors_RootPath() {
-        return this.getAllAuthors();
-    }
-
-    private ResponseEntity<?> getAllAuthors() {
-        // TODO: Paginated response handling for large results
-        return new RestCallHandler<>().execute(authorService::getAllAuthors);
+        return getAllAuthors();
     }
 
     @GetMapping("/find")
@@ -50,6 +45,12 @@ public class AuthorsController {
         return new RestCallHandler<>().execute(() -> authorService.findAllAuthorsWhereNameContains(query));
     }
 
+
+
+    private ResponseEntity<?> getAllAuthors() {
+        // TODO: Paginated response handling for large results
+        return new RestCallHandler<>().execute(authorService::getAllAuthors);
+    }
 
 
 }

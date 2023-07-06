@@ -7,6 +7,9 @@ import java.util.List;
 public interface TitleServiceInterface {
 
     Title getTitleById(String id);
+
+    List<Title> getAllTitles();
+
     List<Title> findAllWhereTitleContains(String substring);
     List<Title> findAllWhereAuthorIdEquals(String substring);
 

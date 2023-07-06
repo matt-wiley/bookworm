@@ -26,10 +26,10 @@ public class TitlesYaml {
 
     private static final Logger LOG = LoggerFactory.getLogger(TitlesYaml.class);
 
-    private String dataPath;
+    private final String dataPath;
 
-    private List<Title> titlesList = new ArrayList<>();
-    private Map<String, Title> idIndex = new HashMap<>();
+    private final List<Title> titlesList = new ArrayList<>();
+    private final Map<String, Title> idIndex = new HashMap<>();
 
     public TitlesYaml(YamlDataConfig yamlDataConfig) throws FileNotFoundException {
         this.dataPath = String.format("%s/%s.yml", yamlDataConfig.getPath(), Tokens.DATA_SET_NAME);
@@ -42,6 +42,9 @@ public class TitlesYaml {
         return this.idIndex.get(id);
     }
 
+    public List<Title> getAllTitles() {
+        return titlesList;
+    }
 
     private void loadYamlData() throws FileNotFoundException {
         Yaml yaml = new Yaml();

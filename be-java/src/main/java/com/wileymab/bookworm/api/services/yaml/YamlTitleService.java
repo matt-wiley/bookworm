@@ -22,6 +22,12 @@ public class YamlTitleService implements TitleServiceInterface {
     }
 
     @Override
+    public List<Title> getAllTitles() {
+        return titlesYamlData.getAllTitles();
+    }
+
+
+    @Override
     public List<Title> findAllWhereTitleContains(String substring) {
         // TODO
         return null;

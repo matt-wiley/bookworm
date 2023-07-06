@@ -27,10 +27,10 @@ public class AuthorsYaml {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthorsYaml.class);
 
-    private String dataPath;
+    private final String dataPath;
 
-    private List<Author> authorsList = new ArrayList<>();
-    private Map<String, Author> idIndex = new HashMap<>();
+    private final List<Author> authorsList = new ArrayList<>();
+    private final Map<String, Author> idIndex = new HashMap<>();
 
     public AuthorsYaml(YamlDataConfig yamlDataConfig) throws FileNotFoundException {
         this.dataPath = String.format("%s/%s.yml", yamlDataConfig.getPath(), Tokens.DATA_SET_NAME);
