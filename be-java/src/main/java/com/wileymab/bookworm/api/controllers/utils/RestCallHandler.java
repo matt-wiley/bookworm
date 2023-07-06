@@ -20,7 +20,7 @@ public class RestCallHandler<T extends Object> {
         return exception;
     }
 
-    public ResponseEntity<? extends Object> execute(CallRunner<T> callRunner) {
+    public ResponseEntity<?> execute(CallRunner<T> callRunner) {
         ResponseEntity<?> response;
         try {
             this.result = callRunner.callToService();

@@ -20,6 +20,10 @@ public class AuthorsController {
         this.authorService = authorService;
     }
 
+    // ========================================================================
+    //  PUBLIC API
+    //
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getAuthorById(@PathVariable final String id) {
         return new RestCallHandler<>().execute(() -> authorService.getAuthorById(id));
@@ -46,6 +50,9 @@ public class AuthorsController {
     }
 
 
+    // ========================================================================
+    //  PRIVATE API
+    //
 
     private ResponseEntity<?> getAllAuthors() {
         // TODO: Paginated response handling for large results

@@ -4,13 +4,11 @@ import com.wileymab.bookworm.api.controllers.utils.RestCallHandler;
 import com.wileymab.bookworm.api.interfaces.AuthorServiceInterface;
 import com.wileymab.bookworm.api.interfaces.TitleServiceInterface;
 import com.wileymab.bookworm.api.model.Title;
+import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,12 @@ public class TitlesController {
         this.titleService = titleService;
     }
 
+
+    // ========================================================================
+    //  PUBLIC API
+    //
+
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getTitleById(@PathVariable String id) {
         return new RestCallHandler<>().execute(() -> titleService.getTitleById(id));
@@ -43,6 +47,20 @@ public class TitlesController {
         return getAllTitles();
     }
 
+
+    @GetMapping("/find")
+    public ResponseEntity<?> findAllTitlesByText(@RequestParam("q") String query) {
+        if (StringUtils.isEmpty(query)) {
+            LOG.error("Query param value for key \"q\" was empty.");
+            return ResponseEntity.badRequest().build();
+        }
+        return new RestCallHandler<>().execute(() -> titleService.findAllWhereTitleContains(query));
+    }
+
+
+    // ========================================================================
+    //  PRIVATE API
+    //
 
     private ResponseEntity<?> getAllTitles() {
         return new RestCallHandler<>().execute(titleService::getAllTitles);

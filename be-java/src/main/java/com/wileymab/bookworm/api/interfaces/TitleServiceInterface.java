@@ -11,6 +11,5 @@ public interface TitleServiceInterface {
     List<Title> getAllTitles();
 
     List<Title> findAllWhereTitleContains(String substring);
-    List<Title> findAllWhereAuthorIdEquals(String substring);
 
 }

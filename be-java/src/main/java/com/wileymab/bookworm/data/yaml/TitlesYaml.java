@@ -1,5 +1,6 @@
 package com.wileymab.bookworm.data.yaml;
 
+import com.wileymab.bookworm.api.model.Author;
 import com.wileymab.bookworm.api.model.Title;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class TitlesYaml {
@@ -45,6 +47,15 @@ public class TitlesYaml {
     public List<Title> getAllTitles() {
         return titlesList;
     }
+
+    public List<Title> findAllTitlesWhereTitleTextContainsString(String queryString) {
+        String normalizedQueryString = queryString.toLowerCase();
+        return titlesList
+                .stream()
+                .filter(t -> t.getTitle().toLowerCase().contains(normalizedQueryString) )
+                .collect(Collectors.toList());
+    }
+
 
     private void loadYamlData() throws FileNotFoundException {
         Yaml yaml = new Yaml();

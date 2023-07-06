@@ -29,13 +29,7 @@ public class YamlTitleService implements TitleServiceInterface {
 
     @Override
     public List<Title> findAllWhereTitleContains(String substring) {
-        // TODO
-        return null;
+        return titlesYamlData.findAllTitlesWhereTitleTextContainsString(substring);
     }
 
-    @Override
-    public List<Title> findAllWhereAuthorIdEquals(String substring) {
-        // TODO
-        return null;
-    }
 }
