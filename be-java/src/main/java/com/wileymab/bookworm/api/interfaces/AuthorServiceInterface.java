@@ -8,7 +8,6 @@ public interface AuthorServiceInterface {
 
     Author getAuthorById(String id);
     List<Author> getAllAuthors();
-    List<Author> findAllAuthorsWhereLastNameContains(String substring);
     List<Author> findAllAuthorsWhereNameContains(String substring);
 
 }

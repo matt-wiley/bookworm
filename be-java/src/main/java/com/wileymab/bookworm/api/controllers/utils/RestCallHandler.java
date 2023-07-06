@@ -21,7 +21,7 @@ public class RestCallHandler<T extends Object> {
     }
 
     public ResponseEntity<? extends Object> execute(CallRunner<T> callRunner) {
-        ResponseEntity<?> response = null;
+        ResponseEntity<?> response;
         try {
             this.result = callRunner.callToService();
         }

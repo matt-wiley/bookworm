@@ -27,14 +27,7 @@ public class YamlAuthorService implements AuthorServiceInterface {
     }
 
     @Override
-    public List<Author> findAllAuthorsWhereLastNameContains(String substring) {
-        // TODO
-        return null;
-    }
-
-    @Override
     public List<Author> findAllAuthorsWhereNameContains(String substring) {
-        // TODO
-        return null;
+        return authorsYamlData.findAllAuthorsWhereNameContainsString(substring);
     }
 }

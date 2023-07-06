@@ -47,6 +47,17 @@ public class AuthorsYaml {
         return authorsList;
     }
 
+    public List<Author> findAllAuthorsWhereNameContainsString(String queryString) {
+        String normalizedQueryString = queryString.toLowerCase();
+        return authorsList
+                .stream()
+                .filter(a ->
+                        a.getName().getFirstName().toLowerCase().contains(normalizedQueryString) ||
+                        a.getName().getLastName().toLowerCase().contains(normalizedQueryString))
+                .toList();
+    }
+
+
     private void loadYamlData() throws FileNotFoundException {
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream(this.dataPath);
