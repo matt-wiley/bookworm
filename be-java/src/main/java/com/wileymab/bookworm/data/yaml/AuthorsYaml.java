@@ -30,7 +30,7 @@ public class AuthorsYaml {
     public AuthorsYaml(YamlDataConfig yamlDataConfig) throws FileNotFoundException {
         this.dataPath = String.format("%s/%s.yml", yamlDataConfig.getPath(), Tokens.DATA_SET_NAME);
         LOG.info(dataPath);
-        loadYamlData();
+        loadData();
         LOG.info(authorsList.toString());
     }
 
@@ -53,16 +53,20 @@ public class AuthorsYaml {
     }
 
     public Author insertAuthor(Author author) throws IOException {
-        Author insertableAuthor = new Author(null, author.getName() );
+        Author insertableAuthor = new Author();
         List<Author> updatedAuthorsList = new ArrayList<>(authorsList);
+
+        insertableAuthor.setName(author.getName());
         insertableAuthor.setId(UUID.randomUUID().toString());
         updatedAuthorsList.add(insertableAuthor);
+
         persistData(updatedAuthorsList);
-        loadYamlData();
+        loadData();
+
         return getAuthorById(insertableAuthor.getId());
     }
 
-    private void loadYamlData() throws FileNotFoundException {
+    private void loadData() throws FileNotFoundException {
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream(this.dataPath);
         List<Map<String, Object>> authorsRawDataList = yaml.load(inputStream);
@@ -97,12 +101,12 @@ public class AuthorsYaml {
         List<Map<String,Object>> authorsRawData = new ArrayList<>();
         for ( Author author: authorsList ) {
             Map<String,Object> authorMap = new HashMap<>();
-            authorMap.put("id", author.getId());
+            authorMap.put(Tokens.YAML_ID_KEY, author.getId());
 
             Map<String,String> nameMap = new HashMap<>();
-            nameMap.put("first", author.getName().getFirstName());
-            nameMap.put("last", author.getName().getLastName());
-            authorMap.put("name",nameMap);
+            nameMap.put(Tokens.YAML_NAME_FIRST_KEY, author.getName().getFirstName());
+            nameMap.put(Tokens.YAML_NAME_LAST_KEY, author.getName().getLastName());
+            authorMap.put(Tokens.YAML_NAME_KEY, nameMap);
 
             authorsRawData.add(authorMap);
         }

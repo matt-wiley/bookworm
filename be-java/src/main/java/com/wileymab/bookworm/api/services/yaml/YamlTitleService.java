@@ -5,6 +5,7 @@ import com.wileymab.bookworm.api.model.Title;
 import com.wileymab.bookworm.data.yaml.TitlesYaml;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -30,6 +31,11 @@ public class YamlTitleService implements TitleServiceInterface {
     @Override
     public List<Title> findAllWhereTitleContains(String substring) {
         return titlesYamlData.findAllTitlesWhereTitleTextContainsString(substring);
+    }
+
+    @Override
+    public Title insertTitle(Title title) throws IOException {
+        return titlesYamlData.insertTitle(title);
     }
 
 }

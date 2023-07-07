@@ -1,18 +1,14 @@
 package com.wileymab.bookworm.data.yaml;
 
+import com.wileymab.bookworm.api.model.Author;
 import com.wileymab.bookworm.api.model.Title;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,7 +31,7 @@ public class TitlesYaml {
     public TitlesYaml(YamlDataConfig yamlDataConfig) throws FileNotFoundException {
         this.dataPath = String.format("%s/%s.yml", yamlDataConfig.getPath(), Tokens.DATA_SET_NAME);
         LOG.info(dataPath);
-        loadYamlData();
+        loadData();
         LOG.info(titlesList.toString());
     }
 
@@ -55,28 +51,65 @@ public class TitlesYaml {
                 .collect(Collectors.toList());
     }
 
+    public Title insertTitle(Title title) throws IOException {
+        Title insertableTitle = new Title();
+        List<Title> updatedTitlesList = new ArrayList<>(titlesList);
 
-    private void loadYamlData() throws FileNotFoundException {
+        insertableTitle.setId(UUID.randomUUID().toString());
+        insertableTitle.setTitle(title.getTitle());
+        insertableTitle.setAuthorId(title.getAuthorId());
+
+        updatedTitlesList.add(insertableTitle);
+
+        persistData(updatedTitlesList);
+        loadData();
+
+        return getTitleById(insertableTitle.getId());
+    }
+
+
+    private void loadData() throws FileNotFoundException {
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream(this.dataPath);
-        Map<String, Object> rawData = yaml.load(inputStream);
-        List<Map<String, Object>> titlesRawData = (List<Map<String, Object>>) rawData.get(Tokens.DATA_SET_NAME);
-        parseData(titlesRawData);
+        List<Map<String, Object>> titlesRawData = yaml.load(inputStream);
+        this.titlesList.clear();
+        this.titlesList.addAll(deserializeData(titlesRawData));
         indexDataById();
     }
 
-    private void parseData(List<Map<String, Object>> titlesRawDataList) {
+    private void persistData(List<Title> updatedTitlesList) throws IOException {
+        Yaml yaml = new Yaml();
+        FileWriter fileWriter = new FileWriter(this.dataPath, false);
+        yaml.dump(serializeData(updatedTitlesList), fileWriter);
+    }
+
+    private List<Title> deserializeData(List<Map<String, Object>> titlesRawDataList) {
+        List<Title> loadedTitlesList = new ArrayList<>();
         for (Map<String,Object> titleRawData: titlesRawDataList) {
             Title t = new Title(
                     (String) titleRawData.get(Tokens.YAML_ID_KEY),
                     (String) titleRawData.get(Tokens.YAML_TITLE_KEY),
                     (String) titleRawData.get(Tokens.YAML_AUTHOR_ID_KEY)
             );
-            this.titlesList.add(t);
+            loadedTitlesList.add(t);
         }
+        return loadedTitlesList;
+    }
+
+    private List<Map<String,Object>> serializeData(List<Title> titlesList) {
+        List<Map<String,Object>> titlesRawData = new ArrayList<>();
+        for ( Title title: titlesList ) {
+            Map<String,Object> titleMap = new HashMap<>();
+            titleMap.put(Tokens.YAML_ID_KEY, title.getId());
+            titleMap.put(Tokens.YAML_AUTHOR_ID_KEY, title.getAuthorId());
+            titleMap.put(Tokens.YAML_TITLE_KEY, title.getTitle());
+            titlesRawData.add(titleMap);
+        }
+        return titlesRawData;
     }
 
     private void indexDataById() {
+        this.idIndex.clear();
         for (Title title : this.titlesList) {
             this.idIndex.put(title.getId(), title);
         }

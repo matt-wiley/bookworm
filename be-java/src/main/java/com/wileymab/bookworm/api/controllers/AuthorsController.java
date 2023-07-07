@@ -46,7 +46,7 @@ public class AuthorsController {
             LOG.error("Query param value for key \"q\" was empty.");
             return ResponseEntity.badRequest().build();
         }
-        // TODO: Paginated response handling for large results
+        // TODO: (Maybe) Paginated response handling for large results
         return new RestCallHandler<>().execute(() -> authorService.findAllAuthorsWhereNameContains(query));
     }
 
@@ -60,7 +60,7 @@ public class AuthorsController {
     //
 
     private ResponseEntity<?> getAllAuthors() {
-        // TODO: Paginated response handling for large results
+        // TODO: (Maybe) Paginated response handling for large results
         return new RestCallHandler<>().execute(authorService::getAllAuthors);
     }
 

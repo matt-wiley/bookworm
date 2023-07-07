@@ -36,6 +36,9 @@ public class Author {
     private String id;
     private Name name;
 
+    public Author() {
+    }
+
     public Author(String id, Name name) {
         this.id = id;
         this.name = name;

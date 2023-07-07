@@ -2,6 +2,7 @@ package com.wileymab.bookworm.api.controllers;
 
 import com.wileymab.bookworm.api.controllers.utils.RestCallHandler;
 import com.wileymab.bookworm.api.interfaces.TitleServiceInterface;
+import com.wileymab.bookworm.api.model.Title;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,11 @@ public class TitlesController {
         return new RestCallHandler<>().execute(() -> titleService.findAllWhereTitleContains(query));
     }
 
-    // TODO: Add title
+    @PostMapping("")
+    public ResponseEntity<?> insertNewAuthor(@RequestBody Title title) {
+        return new RestCallHandler<>().execute(() -> titleService.insertTitle(title));
+    }
+
     // TODO: Update title data (author_id)
 
     // ========================================================================
