@@ -27,8 +27,6 @@ public class TitlesController {
     // ========================================================================
     //  PUBLIC API
     //
-
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getTitleById(@PathVariable String id) {
         return new RestCallHandler<>().execute(() -> titleService.getTitleById(id));
@@ -59,7 +57,15 @@ public class TitlesController {
         return new RestCallHandler<>().execute(() -> titleService.insertTitle(title));
     }
 
-    // TODO: Update title data (author_id)
+    @PutMapping("")
+    public ResponseEntity<?> updateExistingAuthor(@RequestBody Title title) {
+        return new RestCallHandler<>().execute(() -> {
+            if ( title.getId() == null ) {
+                return ResponseEntity.badRequest().build();
+            }
+            return titleService.updateTitle(title);
+        });
+    }
 
     // ========================================================================
     //  PRIVATE API

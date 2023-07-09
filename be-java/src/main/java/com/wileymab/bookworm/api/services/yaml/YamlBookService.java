@@ -8,6 +8,7 @@ import com.wileymab.bookworm.api.model.Book;
 import com.wileymab.bookworm.api.model.Title;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,15 +36,27 @@ public class YamlBookService implements BookServiceInterface {
 
     @Override
     public Book getBookById(String id) {
+
         Title title = titleService.getTitleById(id);
-        Author author = authorService.getAuthorById(title.getAuthorId());
+        if ( title == null ) {
+            return null;
+        }
+
+        Author author = null;
+        if ( title.getAuthorId() != null ) {
+            author = authorService.getAuthorById(title.getAuthorId());
+        }
+
         return new Book(title, author);
     }
 
     @Override
     public List<Book> getAllBooks() {
-        // TODO
-        return null;
+        List<Book> allBooks = new ArrayList<>();
+        for (Title t: titleService.getAllTitles()) {
+            allBooks.add(getBookById(t.getId()));
+        }
+        return allBooks;
     }
 
     @Override
@@ -63,4 +76,5 @@ public class YamlBookService implements BookServiceInterface {
         // TODO
         return null;
     }
+
 }

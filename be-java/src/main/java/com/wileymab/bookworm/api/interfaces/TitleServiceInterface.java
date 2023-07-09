@@ -15,4 +15,10 @@ public interface TitleServiceInterface {
 
     Title insertTitle(Title title) throws IOException;
 
+    Title updateTitle(Title title) throws IOException;
+
+    void removeTitle(Title title) throws IOException;
+
+    void removeTitleById(String id) throws IOException;
+
 }

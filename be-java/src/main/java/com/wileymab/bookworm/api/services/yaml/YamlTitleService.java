@@ -38,4 +38,20 @@ public class YamlTitleService implements TitleServiceInterface {
         return titlesYamlData.insertTitle(title);
     }
 
+    @Override
+    public Title updateTitle(Title title) throws IOException {
+        return titlesYamlData.updateTitle(title);
+    }
+
+    @Override
+    public void removeTitle(Title title) throws IOException {
+        titlesYamlData.removeTitle(title);
+    }
+
+    @Override
+    public void removeTitleById(String id) throws IOException {
+        titlesYamlData.removeTitleById(id);
+    }
+
+
 }

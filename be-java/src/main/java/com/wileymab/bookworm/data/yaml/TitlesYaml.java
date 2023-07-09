@@ -1,6 +1,5 @@
 package com.wileymab.bookworm.data.yaml;
 
-import com.wileymab.bookworm.api.model.Author;
 import com.wileymab.bookworm.api.model.Title;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,22 +50,57 @@ public class TitlesYaml {
                 .collect(Collectors.toList());
     }
 
+
     public Title insertTitle(Title title) throws IOException {
+
         Title insertableTitle = new Title();
         List<Title> updatedTitlesList = new ArrayList<>(titlesList);
 
         insertableTitle.setId(UUID.randomUUID().toString());
         insertableTitle.setTitle(title.getTitle());
         insertableTitle.setAuthorId(title.getAuthorId());
-
         updatedTitlesList.add(insertableTitle);
 
-        persistData(updatedTitlesList);
-        loadData();
+        refreshData(updatedTitlesList);
 
         return getTitleById(insertableTitle.getId());
     }
 
+    public Title updateTitle(Title title) throws IOException {
+
+        Title insertableTitle = new Title();
+        List<Title> updatedTitlesList = allExcept(title);
+
+        insertableTitle.setId(title.getId());
+        insertableTitle.setTitle(title.getTitle());
+        insertableTitle.setAuthorId(title.getAuthorId());
+        updatedTitlesList.add(insertableTitle);
+
+        refreshData(updatedTitlesList);
+
+        return getTitleById(insertableTitle.getId());
+    }
+
+    public void removeTitleById(String id) throws IOException {
+        removeTitle(getTitleById(id));
+    }
+
+    public void removeTitle(Title title) throws IOException {
+        List<Title> updatedTitlesList = allExcept(title);
+        refreshData(updatedTitlesList);
+    }
+
+    private List<Title> allExcept(Title title) {
+        List<Title> updatedTitlesList = new ArrayList<>(titlesList);
+        return updatedTitlesList.stream()
+                .filter(t -> !Objects.equals(t.getId(), title.getId()))
+                .collect(Collectors.toList());
+    }
+
+    private void refreshData(List<Title> updatedTitlesList) throws IOException {
+        persistData(updatedTitlesList);
+        loadData();
+    }
 
     private void loadData() throws FileNotFoundException {
         Yaml yaml = new Yaml();

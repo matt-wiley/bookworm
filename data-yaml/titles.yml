@@ -3,21 +3,11 @@
     author_id: ba1c46cb-acab-401d-9251-a856bcc0f2a0,
     title: Hitchhiker's Guide to the Galaxy,
   }
-- { 
-    id: 02af59e2-9242-4abc-8a7f-b6658351e31e, 
-    author_id: null, 
-    title: Survivor 
-  }
+- { id: 02af59e2-9242-4abc-8a7f-b6658351e31e, author_id: null, title: Survivor }
 - {
     id: ffd09aa4-9c48-451c-b5af-c94be6cc5ce8,
     author_id: null,
     title: Jurassic Park,
-  }
-- {
-    id: 156dab74-b9e6-4c6f-851e-6e894e856ec7,
-    author_id: null,
-    title: The Anthropocene
-      Reviewed,
   }
 - {
     id: 1a44214a-43a1-444e-8b52-1316089696c7,
@@ -27,5 +17,11 @@
 - {
     id: 7693ecad-38b8-453e-bb97-b075cde82d66,
     author_id: null,
-    title: The Man in the High Castle,
+    title: The Man in the
+      High Castle,
+  }
+- {
+    id: 156dab74-b9e6-4c6f-851e-6e894e856ec7,
+    author_id: 7bca3c42-3eca-4e4f-8c92-819a0130d099,
+    title: The Anthropocene Reviewed,
   }
